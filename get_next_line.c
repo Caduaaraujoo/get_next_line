@@ -6,7 +6,7 @@
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:39:34 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/15 23:47:30 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/16 20:44:10 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	adjust_list_head(t_list **l_gnl)
 {
 	t_list	*temp;
 
-	while ((*l_gnl)->content != '\n')
+	while (*l_gnl && (*l_gnl)->content != '\n')
 	{
 		temp = *l_gnl;
 		*l_gnl = (*l_gnl)->next;
@@ -46,7 +46,7 @@ static void	form_setence_from_list(t_list **l_gnl, char **string_read)
 		if (current->content == '\n')
 		{
 			(*string_read)[index] = current->content;
-			break ;
+			return ;
 		}
 		(*string_read)[index] = current->content;
 		index++;
@@ -55,20 +55,14 @@ static void	form_setence_from_list(t_list **l_gnl, char **string_read)
 }
 
 static void	initial_and_allocations_list(t_list **l_gnl, char *buffer,
-		char **string_read, int bytes_read)
+		char **string_read)
 {
 	t_list	*current;
 
-	if (bytes_read == 0)
-	{
-		form_setence_from_list(l_gnl, string_read);
-		ft_lstclear(l_gnl);
-		return ;
-	}
 	while (*buffer)
 		ft_lstadd_back(l_gnl, ft_lstnew(*buffer++));
 	current = *l_gnl;
-	while (current)
+	while (current->next)
 	{
 		if (current->content == '\n')
 		{
@@ -78,6 +72,8 @@ static void	initial_and_allocations_list(t_list **l_gnl, char *buffer,
 				adjust_list_head(l_gnl);
 				break ;
 			}
+			else
+				ft_lstclear(l_gnl);
 		}
 		current = current->next;
 	}
@@ -97,19 +93,33 @@ char	*get_next_line(int fd)
 		buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
 		ft_memset(buffer, '\0', BUFFER_SIZE + 1);
 		if (fd == -1)
+		{
+			free(buffer);
 			return (NULL);
+		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
 			free(buffer);
 			return (NULL);
 		}
-		initial_and_allocations_list(&l_gnl, buffer, &string_read, bytes_read);
+		if (bytes_read == 0 && ft_lstsize_or_size_newline(l_gnl) > 0)
+		{
+			form_setence_from_list(&l_gnl, &string_read);
+			ft_lstclear(&l_gnl);
+			free(buffer);
+			return (string_read);
+		}
+		if (bytes_read == 0)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		initial_and_allocations_list(&l_gnl, buffer, &string_read);
 		free(buffer);
 		if (string_read)
 			break ;
 	}
-
 	return (string_read);
 }
 
@@ -123,10 +133,7 @@ int	main(void)
 	{
 		str = get_next_line(fd);
 		if (str == NULL)
-		{
-			printf("EOF reached\n");
 			break ;
-		}
 		printf("%s", str);
 		free(str);
 	}

@@ -6,7 +6,7 @@
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:38:00 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/15 21:34:41 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/16 20:22:00 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_list
 	char			content;
 	struct s_list	*next;
 }					t_list;
+char				*get_next_line(int fd);
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 int					ft_lstsize_or_size_newline(t_list *lst);
