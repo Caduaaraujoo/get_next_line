@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:39:34 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/17 20:58:01 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/17 21:00:03 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,16 @@ static char	*read_fd(int fd, t_list **l_gnl)
 char	*get_next_line(int fd)
 {
 	char			*string;
-	static t_list	*l_gnl;
+	static t_list	*l_gnl[1024];
 
 	string = NULL;
 	if (fd == -1)
 		return (NULL);
 	if (BUFFER_SIZE > 0)
 	{
-		string = read_fd(fd, &l_gnl);
-		while (string == NULL && l_gnl != NULL)
-			string = read_fd(fd, &l_gnl);
+		string = read_fd(fd, &l_gnl[fd]);
+		while (string == NULL && l_gnl[fd] != NULL)
+			string = read_fd(fd, &l_gnl[fd]);
 	}
 	return (string);
 }
