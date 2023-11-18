@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:57:32 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/17 20:49:39 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/17 21:40:24 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	t_list	*current;
 
 	current = *lst;
-	if (*lst == NULL)
-		*lst = new;
-	else
+	if (!current)
 	{
-		while (current->next != NULL)
-			current = current->next;
-		current->next = new;
+		*lst = new;
+		return ;
 	}
+	while (current->next)
+		current = current->next;
+	current->next = new;
 }
 
 int	ft_lstsize_or_size_newline(t_list *lst)

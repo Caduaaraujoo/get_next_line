@@ -6,7 +6,7 @@
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:39:34 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/17 20:58:01 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/17 21:37:35 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,12 @@ static char	*read_fd(int fd, t_list **l_gnl)
 	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	is_finish = 0;
-	if (bytes_read == -1 ||  (bytes_read == 0 && (*l_gnl) == NULL))
+	if (bytes_read == -1 || (bytes_read == 0 && (*l_gnl) == NULL))
 	{
 		ft_lstclear(l_gnl);
 		free(buffer);
 		return (NULL);
 	}
-
 	while (buffer[i])
 		ft_lstadd_back(l_gnl, ft_lstnew(buffer[i++]));
 	is_finish = form_setence_from_list(l_gnl, &string_read, bytes_read);
