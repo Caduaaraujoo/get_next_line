@@ -6,7 +6,7 @@
 /*   By: caredua3 <caredua3@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:39:34 by caredua3          #+#    #+#             */
-/*   Updated: 2023/11/17 21:37:35 by caredua3         ###   ########.fr       */
+/*   Updated: 2023/11/19 20:05:41 by caredua3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,21 +109,3 @@ char	*get_next_line(int fd)
 	}
 	return (string);
 }
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
-
-// 	fd = open("42_with_nl", O_RDONLY);
-// 	while (1)
-// 	{
-// 		str = get_next_line(fd);
-// 		if (str == NULL)
-// 			break ;
-// 		printf("%s", str);
-// 		free(str);
-// 	}
-// 	close(fd); // Feche o arquivo após a leitura
-// 	return (0);
-// }
